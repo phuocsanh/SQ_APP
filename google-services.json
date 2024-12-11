@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "412584781250",
+    "project_id": "asher-c7bdc",
+    "storage_bucket": "asher-c7bdc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412584781250:android:fd14e82f5ade02c2a8e25b",
+        "android_client_info": {
+          "package_name": "com.ims.asher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAieEj0P1PTBahw02YMJVF3pEZhT1Ku6Kk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
