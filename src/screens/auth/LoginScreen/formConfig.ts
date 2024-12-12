@@ -4,7 +4,11 @@ import * as yup from 'yup';
 
 const schema = yup
   .object({
-    phone: yup.string().required('Số điện thoại không được để trống!').trim(),
+    email: yup
+      .string()
+      .required('Email không được để trống!')
+      .trim()
+      .email('Email không đúng định dạng'),
 
     password: yup.string().required('Mật khẩu không được để trống!').trim(),
   })
@@ -15,7 +19,7 @@ export type FormField = yup.InferType<typeof schema>;
 const formConfig: UseFormProps<FormField> = {
   resolver: yupResolver(schema),
   defaultValues: {
-    phone: '',
+    email: '',
     password: '',
   },
 };

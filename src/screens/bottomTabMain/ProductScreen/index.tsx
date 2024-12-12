@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {Block, EmptyData, Icon, Image, Loading, Text} from 'components';
-import {COLORS} from 'theme';
+import {COLORS, GRADIENT} from 'theme';
 import {IMAGES} from 'assets';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, TextInput} from 'react-native';
 import {useGetListProduct, useGetListProductGroup, useGetProductBanner} from 'queries/product';
 import ListHeader from './components/ListHeader';
 import Item from './components/ProductItem';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ProductScreen = () => {
   const {top} = useSafeAreaInsets();
@@ -38,11 +39,14 @@ const ProductScreen = () => {
       {isPending && <Loading />}
       <Block flex>
         <Block position="absolute" width={'100%'}>
-          <Image
-            height={162 + top}
-            width={'100%'}
-            source={IMAGES.img_bg_header}
-            contentFit="fill"
+          <LinearGradient
+            colors={GRADIENT.header}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            style={{
+              height: 162 + top,
+              paddingTop: Platform.OS === 'ios' ? top : top + 10,
+            }}
           />
         </Block>
         <KeyboardAvoidingView

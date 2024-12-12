@@ -43,6 +43,8 @@ export const ICONS = {
   // MainTab
   ic_point: require('./icons/ic_point.png'),
   ic_qr: require('./icons/ic_qr.png'),
+  ic_new_product: require('./icons/ic_new_product.png'),
+  ic_endow: require('./icons/ic_endow.png'),
   ic_home: require('./icons/ic_home.png'),
   ic_product: require('./icons/ic_product.png'),
   ic_news: require('./icons/ic_news.png'),

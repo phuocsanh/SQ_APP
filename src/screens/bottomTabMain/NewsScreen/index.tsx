@@ -4,9 +4,11 @@ import {StatusBar} from 'expo-status-bar';
 import {navigationRef} from 'navigation/navigationRef';
 import React, {useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {COLORS} from 'theme';
+import {COLORS, GRADIENT} from 'theme';
 import All from './components/All';
 import New from './components/New';
+import LinearGradient from 'react-native-linear-gradient';
+import {Platform} from 'react-native';
 
 export default function NewsScreen() {
   const {top} = useSafeAreaInsets();
@@ -15,8 +17,15 @@ export default function NewsScreen() {
   return (
     <Block flex backgroundColor={COLORS.white}>
       <Block position="absolute" width={'100%'}>
-        <StatusBar />
-        <Image height={162 + top} width={'100%'} source={IMAGES.img_bg_header} contentFit="fill" />
+        <LinearGradient
+          colors={GRADIENT.header}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          style={{
+            height: 162 + top,
+            paddingTop: Platform.OS === 'ios' ? top : top + 10,
+          }}
+        />
       </Block>
       <Text
         marginTop={(142 + top) / 3.5}

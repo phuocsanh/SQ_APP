@@ -1,5 +1,5 @@
 export const COLORS = {
-  primary: '#3465B1',
+  primary: '#00b4d8',
   bubbles: '#E8F6FF',
   gray: '#808080',
   white: '#FFFFFF',
@@ -41,6 +41,7 @@ export const COLORS = {
   ligthSilver: '#DADADA',
   wildSand: '#F5F5F5',
   lightCyan: '#E0F3FF',
+  blizzardBlue: '#ADE8F4',
   blackTransparent20: 'rgba(0,0,0,0.2)',
   blackTransparent40: 'rgba(0,0,0,0.4)',
   blackTransparent60: 'rgba(0,0,0,0.6)',
@@ -63,7 +64,7 @@ export const COLORS = {
 export const GRADIENT = {
   blue: ['#009CE1', '#00D1F0'],
   smoke: ['#E0F3FF', '#E0F3FF'],
-  header: ['#009DE1', '#12B3E8', '#32DAF3', '#FFFFFF'],
+  header: ['#00b4d8', '#48cae4', '#90e0ef'],
   white: ['#FFFFFF', '#FFFFFF'],
   shimmer: ['#E6E6E6', '#f5f5f5', '#f5f5f5', '#E6E6E6'],
 };

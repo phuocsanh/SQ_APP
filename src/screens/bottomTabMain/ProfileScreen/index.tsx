@@ -6,9 +6,11 @@ import {navigationRef} from 'navigation/navigationRef';
 import {useLogout} from 'queries/auth';
 import {useQueryUserInfo} from 'queries/user';
 import React, {useEffect} from 'react';
+import {Platform} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppStore} from 'stores';
-import {COLORS} from 'theme';
+import {COLORS, GRADIENT} from 'theme';
 import {displayVersion} from 'util/helper';
 
 export default function ProfileScreen() {
@@ -31,7 +33,15 @@ export default function ProfileScreen() {
       {logout.isPending && <Loading />}
       <Block position="absolute" width={'100%'}>
         <StatusBar />
-        <Image height={162 + top} width={'100%'} source={IMAGES.img_bg_header} />
+        <LinearGradient
+          colors={GRADIENT.header}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          style={{
+            height: 162 + top,
+            paddingTop: Platform.OS === 'ios' ? top : top + 10,
+          }}
+        />
       </Block>
       <Block
         marginTop={(162 + top) / 3.5}

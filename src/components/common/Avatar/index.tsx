@@ -23,7 +23,8 @@ export const Avatar = ({
   ...props
 }: AvatarProps & BlockProps) => {
   const [loadFailed, setLoadFailed] = useState(false);
-  const bgColor = uri && !loadFailed ? COLORS.transparent : name ? backgroundColor : COLORS.primary;
+  const bgColor =
+    uri && !loadFailed ? COLORS.transparent : name ? backgroundColor : COLORS.blizzardBlue;
 
   const _renderInner = () => {
     if (uri && !loadFailed) {

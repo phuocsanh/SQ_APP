@@ -17,6 +17,7 @@ import {ScanType} from 'models/other';
 import checkAuthNavigate from './checkAuthNavigate';
 import {getUserInfo} from 'queries/cache';
 import {ActivePermission} from 'models/user';
+import EndowScreen from 'screens/bottomTabMain/EndowScreen';
 
 const TAB_BAR_HEIGHT_ORIGIN = 79;
 const ITEW_MIDDLE_WIDTH = 108;
@@ -63,8 +64,8 @@ const CustomTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
       case 'Trang chủ':
         icon = ICONS.ic_home;
         break;
-      case 'Sản phẩm':
-        icon = ICONS.ic_product;
+      case 'Khuyến mãi':
+        icon = ICONS.ic_endow;
         break;
       case 'Tin tức':
         icon = ICONS.ic_news;
@@ -162,9 +163,9 @@ const CustomTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
               target: route.key,
             });
           };
-          if (route.name === 'QR') {
+          if (route.name === 'Product') {
             return (
-              <Block key={'QR'}>
+              <Block key={'Product'}>
                 <Block
                   position="absolute"
                   bottom={rhs(TAB_BAR_HEIGHT - DEPTH + 7.5)}
@@ -173,31 +174,22 @@ const CustomTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
                   <Pressable
                     radius={50}
                     backgroundColor={COLORS.white}
-                    shadow={3}
+                    shadow={1}
                     onPress={() => {
-                      const userPermission = getUserInfo()?.group_code;
-                      if (checkAuthNavigate() && userPermission) {
-                        const scanType =
-                          userPermission === ActivePermission.BOTH
-                            ? ScanType.GENERAL
-                            : userPermission === ActivePermission.SALE
-                              ? ScanType.SALE
-                              : ScanType.WARRANTY;
-                        navigationRef.navigate('ScanQr', {type: scanType});
-                      }
+                      navigation.navigate(route.name, route.params);
                     }}>
-                    <Image source={ICONS.ic_qr} contentFit="cover" square={56} />
+                    <Image source={ICONS.ic_new_product} contentFit="cover" square={56} />
                   </Pressable>
                 </Block>
                 <Block
                   marginTop={DEPTH + 7.5}
-                  backgroundColor="#3465B1"
+                  backgroundColor={COLORS.primary}
                   radius={100}
-                  paddingHorizontal={10}
+                  paddingHorizontal={6}
                   height={16}
                   justifyContent="center">
-                  <Text fontSize={9} font="medium" color={COLORS.white}>
-                    {'Quét mã QR'}
+                  <Text fontSize={12} font="medium" color={COLORS.white}>
+                    {'Sản phẩm'}
                   </Text>
                 </Block>
               </Block>
@@ -241,11 +233,13 @@ const BottomTabMain = createBottomTabNavigator({
       screen: HomeScreen,
       options: {title: 'Trang chủ'},
     },
+    Endow: {
+      screen: EndowScreen,
+      options: {title: 'Khuyến mãi'},
+    },
     Product: {
       screen: ProductScreen,
-      options: {title: 'Sản phẩm'},
     },
-    QR: () => null,
     News: {
       screen: NewsScreen,
       options: {title: 'Tin tức'},

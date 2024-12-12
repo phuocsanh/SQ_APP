@@ -57,22 +57,23 @@ export const useLogout = () => {
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: async (body: {username: string; password: string; isSaveAccount: boolean}) => {
+    mutationFn: async (body: {email: string; password: string; isSaveAccount: boolean}) => {
       const device_token = await messaging().getToken();
-      const res = await api.postRaw<ResponseData<{access_token: string}>>('/user/login', {
+      const res = await api.postRaw<ResponseData<{tokens: {accessToken: string}}>>('/user/login', {
         ...body,
         device_token,
         device_name: Device.deviceName || 'unknown',
       });
+      console.log('🚀 ~ mutationFn: ~ res:', res);
 
-      if (res.data.access_token) {
-        useAppStore.setState({userToken: res.data.access_token});
+      if (res.code == 200 && res.data.tokens.accessToken) {
+        useAppStore.setState({userToken: res.data.tokens.accessToken});
       }
       return res;
     },
     onSuccess: (_, body) => {
       useAppStore.setState({
-        accountSaved: {phone: body.username, password: body.password},
+        accountSaved: {phone: body.email, password: body.password},
         saveAccount: body.isSaveAccount,
       });
     },

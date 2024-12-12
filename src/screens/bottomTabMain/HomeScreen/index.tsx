@@ -11,13 +11,15 @@ import {useQueryUserInfo} from 'queries/user';
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppStore} from 'stores';
-import {COLORS} from 'theme';
+import {COLORS, GRADIENT} from 'theme';
 import CarouselBanner from './components/CarouselBanner';
 import NewProduct from './components/NewProduct';
 import News from './components/News';
 import ShimmerCarousel from './components/ShimmerCarousel';
 import ShimmerNews from './components/ShimmerNews';
 import ShimmerProduct from './components/ShimmerProduct';
+import LinearGradient from 'react-native-linear-gradient';
+import {Platform} from 'react-native';
 
 const checkPermission = (permission: ActivePermission.SALE | ActivePermission.WARRANTY) => {
   const userPermission = getUserInfo()?.group_code;
@@ -87,11 +89,14 @@ const HomeScreen = () => {
     <Block flex backgroundColor={COLORS.white}>
       <Block marginBottom={15}>
         <Block position="absolute" width={'100%'}>
-          <Image
-            height={162 + top}
-            width={'100%'}
-            source={IMAGES.img_bg_header}
-            contentFit="fill"
+          <LinearGradient
+            colors={GRADIENT.header}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            style={{
+              height: 162 + top,
+              paddingTop: Platform.OS === 'ios' ? top : top + 10,
+            }}
           />
         </Block>
         <Block

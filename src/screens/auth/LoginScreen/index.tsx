@@ -42,14 +42,14 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (accountSaved && saveAccount) {
-      setValue('phone', accountSaved.phone);
+      setValue('email', accountSaved.phone);
       setValue('password', accountSaved.password);
     }
   }, [accountSaved, saveAccount]);
 
   const onSubmit = async (value: FormField) => {
     mutate({
-      username: value.phone,
+      email: value.email,
       password: value.password,
       isSaveAccount: !!isSaved,
     });
@@ -76,7 +76,7 @@ const LoginScreen = () => {
             <Block marginHorizontal={15} marginTop={20}>
               <FormInput
                 control={control}
-                name="phone"
+                name="email"
                 renderInput={({value, onChangeText}) => {
                   return (
                     <Block
@@ -98,7 +98,7 @@ const LoginScreen = () => {
                       )}
                       <TextInput
                         autoFocus={true}
-                        maxLength={15}
+                        maxLength={80}
                         flex
                         placeholder={isFocusedPhoneInput ? '' : 'Số Điện Thoại'}
                         keyboardType="number-pad"
