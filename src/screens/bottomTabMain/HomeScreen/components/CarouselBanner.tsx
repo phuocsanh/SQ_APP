@@ -4,10 +4,10 @@ import {Dimensions, Pressable} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {COLORS} from 'theme';
 import {Block, Image} from 'components';
-import {HomeData} from 'models/other';
+import {Banner} from 'models/other';
 const {width} = Dimensions.get('window');
 
-function CarouselBanner({data}: {data: HomeData['banner']}) {
+function CarouselBanner({data}: {data: Banner[]}) {
   const [idxCarouselFocused, setIdxCarouselFocused] = useState(0);
   return (
     <Block paddingBottom={25}>
@@ -32,7 +32,7 @@ function CarouselBanner({data}: {data: HomeData['banner']}) {
               contentFit="cover"
               // marginHorizontal={Platform.OS === 'android' ? 12 : 8} mode="parallax"
               marginHorizontal={12}
-              source={item.content}
+              source={item.banner}
             />
           </Pressable>
         )}

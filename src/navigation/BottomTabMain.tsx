@@ -13,10 +13,10 @@ import {ICONS} from 'assets';
 import {navigationRef} from './navigationRef';
 import {Keyboard, Platform} from 'react-native';
 import {useAppStore} from 'stores';
-import {ScanType} from 'models/other';
-import checkAuthNavigate from './checkAuthNavigate';
-import {getUserInfo} from 'queries/cache';
-import {ActivePermission} from 'models/user';
+// import {ScanType} from 'models/other';
+// import checkAuthNavigate from './checkAuthNavigate';
+// import {getUserInfo} from 'queries/cache';
+// import {ActivePermission} from 'models/user';
 import EndowScreen from 'screens/bottomTabMain/EndowScreen';
 
 const TAB_BAR_HEIGHT_ORIGIN = 79;
@@ -35,7 +35,7 @@ const SHADOW_SIZE = 2;
 const CustomTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {bottom} = useSafeAreaInsets();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const userToken = useAppStore(s => s.userToken);
+  const userToken = useAppStore(s => s.accessToken);
 
   useEffect(() => {
     if (userToken) {

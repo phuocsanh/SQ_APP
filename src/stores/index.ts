@@ -5,12 +5,14 @@ import persistStorage from './persistStorage';
 import {ProductInfo} from 'models/products';
 
 type Store = {
-  userToken?: string;
+  accessToken?: string;
+  refeshToken?: string;
+  userId?: string;
   navigationReady: boolean;
   fcmMessage?: FcmMessage;
   saveAccount?: boolean;
   accountSaved?: {
-    phone: string;
+    email: string;
     password: string;
   };
   scannedProducts: ProductInfo[];
@@ -27,7 +29,9 @@ export const useAppStore = create<Store>()(
       storage: persistStorage,
       partialize: state => ({
         // Các trường sẽ được lưu lại sau khi reload app
-        userToken: state.userToken,
+        userToken: state.accessToken,
+        refeshToken: state.refeshToken,
+        userId: state.userId,
         saveAccount: state.saveAccount,
         accountSaved: state.accountSaved,
       }),

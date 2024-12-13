@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {Block, EmptyData, Icon, Image, Loading, Text} from 'components';
+import {Block, EmptyData, Icon, Loading, Text} from 'components';
 import {COLORS, GRADIENT} from 'theme';
-import {IMAGES} from 'assets';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, TextInput} from 'react-native';
 import {useGetListProduct, useGetListProductGroup, useGetProductBanner} from 'queries/product';
@@ -44,7 +43,7 @@ const ProductScreen = () => {
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
             style={{
-              height: 162 + top,
+              height: 135 + top,
               paddingTop: Platform.OS === 'ios' ? top : top + 10,
             }}
           />
@@ -56,7 +55,7 @@ const ProductScreen = () => {
             <Block
               paddingTop={10}
               paddingBottom={10}
-              marginTop={(162 + top) / 3}
+              marginTop={(142 + top) / 3.5}
               paddingHorizontal={15}
               rowCenter>
               <Text
@@ -74,7 +73,7 @@ const ProductScreen = () => {
             </Block>
             <Block
               rowCenter
-              marginTop={15}
+              marginTop={20}
               radius={48}
               height={38}
               paddingHorizontal={5}

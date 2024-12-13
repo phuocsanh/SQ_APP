@@ -40,8 +40,10 @@ const RootStack = createNativeStackNavigator({
       if: useIsSignedOut,
       screens: {
         Login: auth.LoginScreen,
-        Register: auth.RegisterScreen,
+        RegisterEmail: auth.RegisterEmailScreen,
+        VerifyOTPRegister: auth.VerifyOTPRegisterScreen,
         ForgetPassword: auth.ForgetPasswordScreen,
+        CreatePassRegister: auth.CreatePasswordScreen,
       },
     },
   },

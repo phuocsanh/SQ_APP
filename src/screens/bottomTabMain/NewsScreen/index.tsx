@@ -1,7 +1,4 @@
-import {IMAGES} from 'assets';
-import {Block, Icon, Image, Pressable, Text} from 'components';
-import {StatusBar} from 'expo-status-bar';
-import {navigationRef} from 'navigation/navigationRef';
+import {Block, Pressable, Text} from 'components';
 import React, {useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {COLORS, GRADIENT} from 'theme';
@@ -35,22 +32,6 @@ export default function NewsScreen() {
         fontSize={18}>
         {'Tin Tức'}
       </Text>
-      <Pressable
-        marginTop={20}
-        marginHorizontal={18}
-        height={38}
-        radius={20}
-        paddingHorizontal={18}
-        rowCenter
-        backgroundColor={COLORS.white}
-        onPress={() => {
-          navigationRef.navigate('SearchNewsBottom');
-        }}>
-        <Icon name={'search1'} type={'AntDesign'} size={17} color={COLORS.sonicSilver} />
-        <Text marginLeft={8} fontSize={14} font={'regular'} color={COLORS.sonicSilver}>
-          {'Tìm kiếm tin tức...'}
-        </Text>
-      </Pressable>
 
       <Block flex marginTop={32} backgroundColor={COLORS.aliceBlue}>
         <Block

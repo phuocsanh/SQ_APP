@@ -1,9 +1,13 @@
+import CreatePasswordScreen from './CreatePasswordScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
 import LoginScreen from './LoginScreen';
-import RegisterScreen from './RegisterScreen';
+import RegisterEmailScreen from './RegisterEmailScreen';
+import VerifyOTPRegisterScreen from './VerifyOTPRegisterScreen';
 
 export default {
   ForgetPasswordScreen,
   LoginScreen,
-  RegisterScreen,
+  RegisterEmailScreen,
+  VerifyOTPRegisterScreen,
+  CreatePasswordScreen,
 };

@@ -6,7 +6,8 @@ import {isFile, isFileArray} from './checkType';
 import {useAppStore} from 'stores';
 
 export const REMOTE_URL = 'https://asher.thietkewebsite.info.vn/api';
-export const LOCAL_URL = 'http://192.168.1.11:8080/v1/api';
+// export const LOCAL_URL = 'http://192.168.1.11:8080/v1/api'; //personal
+export const LOCAL_URL = 'http://192.168.1.34:8080/v1/api'; // company
 export const BASE_URL = __DEV__
   ? // DEV URL ✅ chỉnh ở đây
     LOCAL_URL
@@ -160,9 +161,17 @@ api.instance.interceptors.request.use(
     if (__DEV__) {
       console.log(`%c__REQUEST__${config.url}: %o`, 'color: blue;font-weight: bold', config);
     }
-    const token = useAppStore.getState().userToken;
-    if (token) {
-      config.headers.setAuthorization(`Bearer ${token}`);
+    const accessToken = useAppStore.getState().accessToken;
+    const refreshToken = useAppStore.getState().refeshToken;
+    const userId = useAppStore.getState().userId;
+    if (accessToken) {
+      config.headers.setAuthorization(`Bearer ${accessToken}`);
+    }
+    if (refreshToken) {
+      config.headers['x-rtoken-id'] = refreshToken;
+    }
+    if (userId) {
+      config.headers['x-client-id'] = userId;
     }
     return config;
   },

@@ -5,11 +5,12 @@ import {useAppStore} from 'stores';
 import api from 'util/api';
 
 export const userInfoOption = (userToken?: string) => {
-  const token = userToken || useAppStore.getState().userToken;
+  const token = userToken || useAppStore.getState().accessToken;
   return queryOptions({
-    queryKey: ['userInfo', token],
+    queryKey: ['getUserInfo', token],
     queryFn: async () => {
-      const res = await api.get<ResponseData<UserInfo>>('user/info');
+      const res = await api.get<ResponseData<UserInfo>>('user/getUserInfo');
+      console.log('🚀 ~ queryFn: ~ res:', res);
       return res.data;
     },
     enabled: !!token,
@@ -17,6 +18,6 @@ export const userInfoOption = (userToken?: string) => {
 };
 
 export const useQueryUserInfo = () => {
-  const userToken = useAppStore(state => state.userToken);
+  const userToken = useAppStore(state => state.accessToken);
   return useQuery(userInfoOption(userToken));
 };

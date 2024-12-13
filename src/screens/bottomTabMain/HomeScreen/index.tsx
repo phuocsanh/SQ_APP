@@ -1,11 +1,10 @@
-import {ICONS, IMAGES} from 'assets';
+import {ICONS} from 'assets';
 import {Avatar, Block, confirm, Icon, Image, Pressable, ScrollView, Text} from 'components';
 import {ScanType} from 'models/other';
 import {ActivePermission} from 'models/user';
 import checkAuthNavigate from 'navigation/checkAuthNavigate';
 import {navigationRef} from 'navigation/navigationRef';
 import {getUserInfo} from 'queries/cache';
-import {useGetHomeData} from 'queries/home';
 import {useGetNotifications} from 'queries/notification';
 import {useQueryUserInfo} from 'queries/user';
 import React from 'react';
@@ -13,13 +12,14 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppStore} from 'stores';
 import {COLORS, GRADIENT} from 'theme';
 import CarouselBanner from './components/CarouselBanner';
-import NewProduct from './components/NewProduct';
-import News from './components/News';
+// import NewProduct from './components/NewProduct';
+// import News from './components/News';
 import ShimmerCarousel from './components/ShimmerCarousel';
-import ShimmerNews from './components/ShimmerNews';
-import ShimmerProduct from './components/ShimmerProduct';
+// import ShimmerNews from './components/ShimmerNews';
+// import ShimmerProduct from './components/ShimmerProduct';
 import LinearGradient from 'react-native-linear-gradient';
 import {Platform} from 'react-native';
+import {useGetBanner} from 'queries/home';
 
 const checkPermission = (permission: ActivePermission.SALE | ActivePermission.WARRANTY) => {
   const userPermission = getUserInfo()?.group_code;
@@ -77,8 +77,10 @@ const listService = [
 
 const HomeScreen = () => {
   const {top} = useSafeAreaInsets();
-  const {data, isPending, refetch} = useGetHomeData();
-  const userToken = useAppStore(state => state.userToken);
+  const {data, isPending, refetch} = useGetBanner();
+  const banner = data?.data.filter(b => b.type_page === 'HOME') || [];
+
+  const userToken = useAppStore(state => state.accessToken);
   const userInfo = useQueryUserInfo();
   const {data: dataNoti, refetch: refetchNoti} = useGetNotifications();
   const onRefetch = () => {
@@ -107,13 +109,13 @@ const HomeScreen = () => {
           {userToken ? (
             <>
               <Block rowCenter>
-                <Avatar name={userInfo.data?.full_name} uri={userInfo.data?.picture} size={34} />
+                <Avatar name={userInfo.data?.name} uri={userInfo.data?.picture} size={34} />
                 <Block marginLeft={15}>
                   <Text fontSize={15} color={COLORS.white}>
                     Xin chào!
                   </Text>
                   <Text fontSize={15} color={COLORS.white}>
-                    {userInfo.data?.full_name}
+                    {userInfo.data?.name}
                   </Text>
                 </Block>
               </Block>
@@ -165,7 +167,7 @@ const HomeScreen = () => {
               marginBottom={30}>
               <Block paddingHorizontal={20} paddingVertical={15}>
                 <Text font="semiBold" color={COLORS.primary} fontSize={15}>
-                  {userInfo.data?.full_name}
+                  {userInfo.data?.name}
                 </Text>
                 <Text color={COLORS.philippineGray} fontSize={12}>
                   {userInfo.data?.address_full}
@@ -191,7 +193,7 @@ const HomeScreen = () => {
             {isPending ? (
               <ShimmerCarousel />
             ) : (
-              data?.data.banner && <CarouselBanner data={data.data.banner} />
+              banner.length > 0 && <CarouselBanner data={banner} />
             )}
             <Block paddingHorizontal={15} backgroundColor={COLORS.white}>
               <Text fontSize={18} font="bold" color={COLORS.darkJungleGreen}>
@@ -246,7 +248,7 @@ const HomeScreen = () => {
                   />
                 </Pressable>
               </Block>
-              <Block marginTop={20}>
+              {/* <Block marginTop={20}>
                 {isPending ? <ShimmerNews /> : data?.data.news && <News data={data.data.news} />}
               </Block>
               <Block marginTop={25} rowCenter justifyContent="space-between">
@@ -274,7 +276,7 @@ const HomeScreen = () => {
                 ) : (
                   data?.data.product && <NewProduct data={data.data.product} />
                 )}
-              </Block>
+              </Block> */}
             </Block>
           </Block>
         </ScrollView>

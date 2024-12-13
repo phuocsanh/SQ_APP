@@ -1,27 +1,8 @@
-export type HomeData = {
-  banner: {
-    title: string;
-    group_id: number;
-    link: string;
-    content: string;
-  }[];
-  news: {
-    title: string;
-    item_id: string;
-    picture: string;
-    created_at: number;
-    group: {
-      title: string;
-    };
-  }[];
-  product: {
-    title: string;
-    item_id: number;
-    picture: string;
-    created_at: number;
-    item_code: string;
-    price_sale: number;
-  }[];
+export type Banner = {
+  _id: string;
+  banner: number;
+  type_app: 'APP' | 'WEB';
+  type_page: 'HOME' | 'PRODUCT';
 };
 
 export type NewsData = {

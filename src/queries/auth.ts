@@ -4,32 +4,41 @@ import {useAppStore} from 'stores';
 import api from 'util/api';
 import messaging from '@react-native-firebase/messaging';
 import * as Device from 'expo-device';
+import {queryClient} from 'queries';
 
-export const useRegister = () => {
+export const useCreatePassRegister = () => {
   return useMutation({
     mutationFn: async ({
-      username,
-      password,
-      password_confirm,
+      user_token,
+      user_password,
     }: {
-      username: string;
-      password: string;
-      password_confirm: string;
+      user_token: string;
+      user_password: string;
     }) => {
-      const rand = Math.floor(Math.random() * 10000);
-      const res = await api.postRaw<ApiResponse>('/user/signup', {
-        username,
-        password,
-        password_confirm,
-        full_name: `Asher ${rand}`,
-        email: `example${rand}@example.com`,
-        gender: 1,
-        province: '13000',
-        district: '13113',
-        ward: '9252',
-        address: 'HCM',
-        device_name: 'iDroid 20 Ultra Super Pro Max Deluxe',
-        device_token: 'token123456789',
+      const res = await api.postRaw<ApiResponse>('/auth/updatePassRegister', {
+        user_token,
+        user_password,
+      });
+      return res;
+    },
+  });
+};
+export const useVerifyOTPRegister = () => {
+  return useMutation({
+    mutationFn: async ({verify_key, verify_code}: {verify_key: string; verify_code: string}) => {
+      const res = await api.postRaw<ResponseData<{token: string}>>('/auth/verifyOtp', {
+        verify_key,
+        verify_code,
+      });
+      return res;
+    },
+  });
+};
+export const useRegisterEmail = () => {
+  return useMutation({
+    mutationFn: async ({email}: {email: string}) => {
+      const res = await api.postRaw<ApiResponse>('/auth/registerEmail', {
+        email,
       });
       return res;
     },
@@ -38,7 +47,9 @@ export const useRegister = () => {
 export const useResetPass = () => {
   return useMutation({
     mutationFn: async ({email}: {email: string}) => {
-      const res = await api.postRaw<ApiResponse>('/user/reset-password', {email});
+      const res = await api.postRaw<ResponseData<{timeCountDown: number}>>('/auth/forgetPassword', {
+        email,
+      });
       return res;
     },
   });
@@ -46,11 +57,11 @@ export const useResetPass = () => {
 export const useLogout = () => {
   return useMutation({
     mutationFn: async () => {
-      const res = await api.post<ApiResponse>('user/logout');
+      const res = await api.post<ApiResponse>('auth/logout');
       return res;
     },
     onSettled: () => {
-      useAppStore.setState({userToken: undefined});
+      useAppStore.setState({accessToken: undefined, refeshToken: undefined, userId: undefined});
     },
   });
 };
@@ -59,21 +70,35 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: async (body: {email: string; password: string; isSaveAccount: boolean}) => {
       const device_token = await messaging().getToken();
-      const res = await api.postRaw<ResponseData<{tokens: {accessToken: string}}>>('/user/login', {
+      const res = await api.postRaw<
+        ResponseData<{
+          user: {email: string; name: string; _id: string};
+          tokens: {accessToken: string; refreshToken: string};
+        }>
+      >('/auth/login', {
         ...body,
         device_token,
         device_name: Device.deviceName || 'unknown',
       });
-      console.log('🚀 ~ mutationFn: ~ res:', res);
 
-      if (res.code == 200 && res.data.tokens.accessToken) {
-        useAppStore.setState({userToken: res.data.tokens.accessToken});
+      if (res.code === 200 && res.data.tokens.accessToken) {
+        useAppStore.setState({
+          accessToken: res.data.tokens.accessToken,
+          refeshToken: res.data.tokens.refreshToken,
+          userId: res.data.user._id,
+        });
+
+        queryClient.refetchQueries({
+          queryKey: ['getUserInfo', res.data.tokens.accessToken],
+          type: 'active',
+          exact: true,
+        });
       }
       return res;
     },
     onSuccess: (_, body) => {
       useAppStore.setState({
-        accountSaved: {phone: body.email, password: body.password},
+        accountSaved: {email: body.email, password: body.password},
         saveAccount: body.isSaveAccount,
       });
     },

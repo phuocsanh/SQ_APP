@@ -19,7 +19,7 @@ export const Avatar = ({
   size = 50,
   fontDecrease = 3,
   contentFit = 'cover',
-  backgroundColor = COLORS.primary,
+  backgroundColor = COLORS.lightSkyBlue,
   ...props
 }: AvatarProps & BlockProps) => {
   const [loadFailed, setLoadFailed] = useState(false);

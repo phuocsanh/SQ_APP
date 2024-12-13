@@ -1,15 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Block,
-  Button,
-  CheckBox,
-  FormInput,
-  HeaderTitle,
-  Image,
-  Pressable,
-  Text,
-  TextInput,
-} from 'components';
+import {Block, Button, CheckBox, FormInput, HeaderTitle, Image, Pressable, Text} from 'components';
 import {IMAGES} from 'assets';
 import {COLORS, height} from 'theme';
 import {useForm} from 'react-hook-form';
@@ -23,8 +13,6 @@ import {displayVersion} from 'util/helper';
 
 const LoginScreen = () => {
   const {control, handleSubmit, setValue} = useForm<FormField>(formConfig);
-  const [isFocusedPhoneInput, setIsFocusedPhoneInput] = useState(false);
-  const [isFocusedPassInput, setIsFocusedPassInput] = useState(false);
   const {mutate, isPending, error} = useLogin();
   const saveAccount = useAppStore(state => state.saveAccount);
   const accountSaved = useAppStore(state => state.accountSaved);
@@ -42,7 +30,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (accountSaved && saveAccount) {
-      setValue('email', accountSaved.phone);
+      setValue('email', accountSaved.email);
       setValue('password', accountSaved.password);
     }
   }, [accountSaved, saveAccount]);
@@ -71,89 +59,36 @@ const LoginScreen = () => {
               height={50}
             />
             <Text textAlign="center" marginTop={16} font="bold" fontSize={20} color={COLORS.black}>
-              Đăng nhập
+              Đăng Nhập
             </Text>
-            <Block marginHorizontal={15} marginTop={20}>
+            <Block marginHorizontal={15} marginTop={25}>
               <FormInput
-                control={control}
-                name="email"
-                renderInput={({value, onChangeText}) => {
-                  return (
-                    <Block
-                      borderColor={isFocusedPhoneInput ? COLORS.primary : COLORS.chineseSilver}
-                      borderWidth={1}
-                      height={42}
-                      radius={8}>
-                      {isFocusedPhoneInput && (
-                        <Block
-                          paddingHorizontal={3}
-                          top={-10}
-                          left={2}
-                          position="absolute"
-                          backgroundColor={COLORS.white}>
-                          <Text fontSize={13} font="bold" color={COLORS.primary}>
-                            Số Điện Thoại
-                          </Text>
-                        </Block>
-                      )}
-                      <TextInput
-                        autoFocus={true}
-                        maxLength={80}
-                        flex
-                        placeholder={isFocusedPhoneInput ? '' : 'Số Điện Thoại'}
-                        keyboardType="number-pad"
-                        onFocus={() => setIsFocusedPhoneInput(true)}
-                        onBlur={() => setIsFocusedPhoneInput(false)}
-                        value={value}
-                        paddingHorizontal={12}
-                        onChangeText={onChangeText}
-                        placeholderTextColor={COLORS.gray}
-                        clearButtonMode="always"
-                      />
-                    </Block>
-                  );
+                maxLength={80}
+                inputContainerProps={{
+                  borderBottomColor: COLORS.chineseSilver,
+                  borderWidth: 1,
+                  radius: 8,
+                  height: 45,
                 }}
+                name={'email'}
+                placeholder={'Nhập Email'}
+                control={control}
               />
-              <Block marginTop={16}>
-                <FormInput
-                  control={control}
-                  name="password"
-                  renderInput={({value, onChangeText}) => {
-                    return (
-                      <Block
-                        borderColor={isFocusedPassInput ? COLORS.primary : COLORS.chineseSilver}
-                        borderWidth={1}
-                        height={42}
-                        radius={8}>
-                        {isFocusedPassInput && (
-                          <Block
-                            paddingHorizontal={3}
-                            top={-10}
-                            left={2}
-                            position="absolute"
-                            backgroundColor={COLORS.white}>
-                            <Text fontSize={13} font="bold" color={COLORS.primary}>
-                              Mật Khẩu
-                            </Text>
-                          </Block>
-                        )}
-                        <TextInput
-                          flex
-                          placeholder={isFocusedPassInput ? '' : 'Mật Khẩu'}
-                          onFocus={() => setIsFocusedPassInput(true)}
-                          onBlur={() => setIsFocusedPassInput(false)}
-                          value={value}
-                          paddingHorizontal={12}
-                          onChangeText={onChangeText}
-                          placeholderTextColor={COLORS.gray}
-                          clearButtonMode="always"
-                          secureTextEntry
-                        />
-                      </Block>
-                    );
-                  }}
-                />
-              </Block>
+
+              <FormInput
+                maxLength={16}
+                toggleHiddenPassword
+                inputContainerProps={{
+                  borderBottomColor: COLORS.chineseSilver,
+                  borderWidth: 1,
+                  radius: 8,
+                  height: 45,
+                  marginTop: 20,
+                }}
+                name={'password'}
+                placeholder={'Nhập Mật Khẩu'}
+                control={control}
+              />
               <Block marginTop={16}>
                 <Block rowCenter justifyContent="space-between">
                   <Pressable
@@ -188,7 +123,7 @@ const LoginScreen = () => {
                   Bạn Chưa Có Tài Khoản?{' '}
                   <Text
                     onPress={() => {
-                      navigationRef.navigate('Register');
+                      navigationRef.navigate('RegisterEmail');
                     }}
                     color={COLORS.primary}>
                     Tạo Tài Khoản

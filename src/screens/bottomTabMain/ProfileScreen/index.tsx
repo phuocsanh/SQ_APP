@@ -1,5 +1,5 @@
 import {useIsFocused} from '@react-navigation/native';
-import {ICONS, IMAGES} from 'assets';
+import {ICONS} from 'assets';
 import {Avatar, Block, Icon, Image, Loading, Pressable, Text} from 'components';
 import {StatusBar} from 'expo-status-bar';
 import {navigationRef} from 'navigation/navigationRef';
@@ -14,7 +14,7 @@ import {COLORS, GRADIENT} from 'theme';
 import {displayVersion} from 'util/helper';
 
 export default function ProfileScreen() {
-  const userToken = useAppStore(state => state.userToken);
+  const userToken = useAppStore(state => state.accessToken);
   const logout = useLogout();
   const {top} = useSafeAreaInsets();
   const isFocused = useIsFocused();
@@ -50,10 +50,10 @@ export default function ProfileScreen() {
         radius={12}
         marginHorizontal={16}>
         <Block rowCenter>
-          <Avatar uri={userInfo.data?.picture} name={userInfo.data?.full_name} radius={84} />
+          <Avatar uri={userInfo.data?.picture} name={userInfo.data?.name} radius={84} />
           <Block flex paddingLeft={15}>
             <Text numberOfLines={1} font={'bold'} color={COLORS.primary} fontSize={17}>
-              {userInfo.data?.full_name}
+              {userInfo.data?.name}
             </Text>
             <Text
               numberOfLines={1}
@@ -75,28 +75,34 @@ export default function ProfileScreen() {
         <Text font={'bold'} marginTop={6} numberOfLines={1} color={COLORS.black} fontSize={16}>
           {'Tài khoản'}
         </Text>
-        <Block height={34} rowCenter paddingRight={15}>
-          <Icon name="location" color={COLORS.spanishGray} type={'EvilIcons'} size={17} />
-          <Text
-            color={COLORS.philippineGray}
-            font={'bold'}
-            numberOfLines={2}
-            marginLeft={16}
-            fontSize={14}>
-            {userInfo.data?.address_full}
-          </Text>
-        </Block>
-        <Block height={34} rowCenter>
-          <Icon name="phone" color={COLORS.spanishGray} type={'SimpleLineIcons'} size={14} />
-          <Text
-            color={COLORS.philippineGray}
-            font={'bold'}
-            numberOfLines={1}
-            marginLeft={16}
-            fontSize={14}>
-            {userInfo.data?.phone}
-          </Text>
-        </Block>
+        {userInfo.data?.address_full && (
+          <Block height={34} rowCenter paddingRight={15}>
+            <Icon name="location" color={COLORS.spanishGray} type={'EvilIcons'} size={17} />
+            <Text
+              color={COLORS.philippineGray}
+              font={'bold'}
+              numberOfLines={2}
+              marginLeft={16}
+              fontSize={14}>
+              {userInfo.data.address_full}
+            </Text>
+          </Block>
+        )}
+
+        {userInfo.data?.phone && (
+          <Block height={34} rowCenter>
+            <Icon name="phone" color={COLORS.spanishGray} type={'SimpleLineIcons'} size={14} />
+            <Text
+              color={COLORS.philippineGray}
+              font={'bold'}
+              numberOfLines={1}
+              marginLeft={16}
+              fontSize={14}>
+              {userInfo.data.phone}
+            </Text>
+          </Block>
+        )}
+
         <Block height={34} rowCenter>
           <Icon name="mail-outline" type={'Ionicons'} color={COLORS.spanishGray} size={16} />
           <Text
