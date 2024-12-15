@@ -17,7 +17,7 @@ import {useAppStore} from 'stores';
 // import checkAuthNavigate from './checkAuthNavigate';
 // import {getUserInfo} from 'queries/cache';
 // import {ActivePermission} from 'models/user';
-import EndowScreen from 'screens/bottomTabMain/EndowScreen';
+import FlashsaleScreen from 'screens/bottomTabMain/FlashsaleScreen';
 
 const TAB_BAR_HEIGHT_ORIGIN = 79;
 const ITEW_MIDDLE_WIDTH = 108;
@@ -64,7 +64,7 @@ const CustomTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
       case 'Trang chủ':
         icon = ICONS.ic_home;
         break;
-      case 'Khuyến mãi':
+      case 'Flash sale':
         icon = ICONS.ic_endow;
         break;
       case 'Tin tức':
@@ -233,9 +233,9 @@ const BottomTabMain = createBottomTabNavigator({
       screen: HomeScreen,
       options: {title: 'Trang chủ'},
     },
-    Endow: {
-      screen: EndowScreen,
-      options: {title: 'Khuyến mãi'},
+    Flashsale: {
+      screen: FlashsaleScreen,
+      options: {title: 'Flash sale'},
     },
     Product: {
       screen: ProductScreen,

@@ -69,6 +69,7 @@ const ChangePasswordScreen = () => {
           />
           <FormInput
             maxLength={15}
+            toggleHiddenPassword
             inputContainerProps={{
               borderBottomColor: COLORS.chineseSilver,
               borderWidth: 1,
@@ -82,6 +83,7 @@ const ChangePasswordScreen = () => {
           />
           <FormInput
             maxLength={15}
+            toggleHiddenPassword
             inputContainerProps={{
               borderBottomColor: COLORS.chineseSilver,
               borderWidth: 1,

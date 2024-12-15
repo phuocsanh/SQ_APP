@@ -9,7 +9,7 @@ import WebView from 'react-native-webview';
 import {COLORS, width, height} from 'theme';
 import ShimmerProductDetail from './ShimmerProductDetail';
 
-type ScreenProps = StaticScreenProps<{id: number}>;
+type ScreenProps = StaticScreenProps<{id: string}>;
 const ProductDetailScreen = ({route}: ScreenProps) => {
   const {top} = useSafeAreaInsets();
   const {data, isPending} = useGetProductDetail({id: route.params.id});

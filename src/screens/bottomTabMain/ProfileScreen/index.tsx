@@ -49,7 +49,7 @@ export default function ProfileScreen() {
         padding={12}
         radius={12}
         marginHorizontal={16}>
-        <Block rowCenter>
+        <Pressable rowCenter onPress={() => navigationRef.navigate('UpdateProfile')}>
           <Avatar uri={userInfo.data?.picture} name={userInfo.data?.name} radius={84} />
           <Block flex paddingLeft={15}>
             <Text numberOfLines={1} font={'bold'} color={COLORS.primary} fontSize={17}>
@@ -64,7 +64,7 @@ export default function ProfileScreen() {
               {userInfo.data?.note}
             </Text>
           </Block>
-        </Block>
+        </Pressable>
       </Block>
       <Block
         radius={12}

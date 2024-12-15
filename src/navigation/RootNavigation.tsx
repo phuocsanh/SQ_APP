@@ -16,6 +16,7 @@ const RootStack = createNativeStackNavigator({
   screenOptions: {headerShown: false},
   screens: {
     BottomTabMain,
+    UpdateProfile: common.UpdateProfileScreen,
     NewsDetail: common.NewsDetailScreen,
     PointHistory: common.PointHistoryScreen,
     ProductDetail: common.ProductDetailScreen,
@@ -34,6 +35,7 @@ const RootStack = createNativeStackNavigator({
     ListActiveProduct: common.ListActiveProductScreen,
     SearchNewsBottom: common.SearchNewsBottomScreen,
     DeleteAccount: common.DeleteAccountScreen,
+    TopProductDiscount: common.TopProductDiscountScreen,
   },
   groups: {
     Auth: {

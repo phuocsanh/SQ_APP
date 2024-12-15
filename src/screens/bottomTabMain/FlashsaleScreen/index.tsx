@@ -1,12 +1,12 @@
 import {Block, Text} from 'components';
 import React from 'react';
 
-const EndowScreen = () => {
+const FlashsaleScreen = () => {
   return (
     <Block>
-      <Text>EndowScreen</Text>
+      <Text>VoucherScreen</Text>
     </Block>
   );
 };
 
-export default EndowScreen;
+export default FlashsaleScreen;

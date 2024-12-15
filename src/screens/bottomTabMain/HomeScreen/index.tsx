@@ -10,7 +10,7 @@ import {useQueryUserInfo} from 'queries/user';
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppStore} from 'stores';
-import {COLORS, GRADIENT} from 'theme';
+import {COLORS, GRADIENT, width} from 'theme';
 import CarouselBanner from './components/CarouselBanner';
 // import NewProduct from './components/NewProduct';
 // import News from './components/News';
@@ -20,6 +20,10 @@ import ShimmerCarousel from './components/ShimmerCarousel';
 import LinearGradient from 'react-native-linear-gradient';
 import {Platform} from 'react-native';
 import {useGetBanner} from 'queries/home';
+import {useGetListProductBySelled, useGetListProductTopDiscount} from 'queries/product';
+import ShimmerProduct from './components/ShimmerProduct';
+import NewProduct from './components/NewProduct';
+import {convertCurrency, formatToK} from 'util/helper';
 
 const checkPermission = (permission: ActivePermission.SALE | ActivePermission.WARRANTY) => {
   const userPermission = getUserInfo()?.group_code;
@@ -83,6 +87,8 @@ const HomeScreen = () => {
   const userToken = useAppStore(state => state.accessToken);
   const userInfo = useQueryUserInfo();
   const {data: dataNoti, refetch: refetchNoti} = useGetNotifications();
+  const {data: dataTopDiscount, isPending: isPendingTopDiscount} = useGetListProductTopDiscount({});
+  const {data: dataTopSelled, isPending: isPendingTopSelled} = useGetListProductBySelled({});
   const onRefetch = () => {
     refetch();
     refetchNoti();
@@ -190,45 +196,183 @@ const HomeScreen = () => {
             flex
             backgroundColor={userToken ? COLORS.transparent : COLORS.white}
             paddingTop={userToken ? 0 : 15}>
-            {isPending ? (
+            {isPendingTopDiscount ? (
               <ShimmerCarousel />
             ) : (
               banner.length > 0 && <CarouselBanner data={banner} />
             )}
             <Block paddingHorizontal={15} backgroundColor={COLORS.white}>
               <Text fontSize={18} font="bold" color={COLORS.darkJungleGreen}>
-                Dịch vụ
+                Voucher - Khuyến mãi
               </Text>
-              <Block marginTop={10} row justifyContent="space-between">
-                {listService.map((item, index) => (
-                  <Pressable
-                    onPress={() => {
-                      if (!userToken) {
-                        return navigationRef.navigate('Login');
-                      }
-                      item.onPress();
-                    }}
-                    key={index}
-                    alignItems="center"
-                    width={'20%'}>
-                    <Block
-                      square={60}
-                      radius={60}
-                      contentCenter
-                      backgroundColor={COLORS.ghostWhite1}>
-                      <Image source={item.icon} square={35} contentFit="contain" />
-                    </Block>
-                    <Text
-                      font="medium"
-                      marginTop={6}
-                      fontSize={12}
-                      lineHeight={20}
-                      textAlign="center">
-                      {item.title}
-                    </Text>
-                  </Pressable>
-                ))}
+              <Block marginTop={10} row justifyContent="space-between"></Block>
+
+              <Block marginTop={25} rowCenter justifyContent="space-between">
+                <Text fontSize={18} font="bold" color={COLORS.darkJungleGreen}>
+                  Top giảm giá
+                </Text>
+                <Pressable rowCenter onPress={() => navigationRef.navigate('TopProductDiscount')}>
+                  <Text color={COLORS.primary} fontSize={16}>
+                    Xem tất cả
+                  </Text>
+                  <Icon
+                    color={COLORS.primary}
+                    marginLeft={5}
+                    type="FontAwesome6"
+                    name="arrow-right"
+                    size={18}
+                  />
+                </Pressable>
               </Block>
+              <Block marginTop={20}>
+                {isPendingTopDiscount ? (
+                  <ShimmerProduct />
+                ) : (
+                  dataTopDiscount?.pages[0]?.data &&
+                  dataTopDiscount?.pages[0]?.data?.data.length > 0 && (
+                    <Block row wrap justifyContent="space-between">
+                      {dataTopDiscount?.pages[0]?.data?.data.map((p, idx) => (
+                        <Pressable
+                          backgroundColor={COLORS.white}
+                          shadow={2}
+                          marginBottom={15}
+                          width={'47%'}
+                          radius={8}
+                          key={idx}
+                          onPress={() => navigationRef.navigate('ProductDetail', {id: p._id})}>
+                          <Image
+                            radius={8}
+                            width={'100%'}
+                            height={width * 0.28}
+                            source={p.product_thumb}
+                            contentFit="contain"
+                          />
+                          <Block
+                            flex
+                            justifyContent="space-between"
+                            marginHorizontal={10}
+                            marginBottom={10}>
+                            <Text
+                              textAlign="center"
+                              numberOfLines={1}
+                              fontSize={14}
+                              marginTop={8}
+                              color={COLORS.black}>
+                              {p.product_name}
+                            </Text>
+
+                            <Block rowCenter justifyContent="space-between" marginTop={5}>
+                              <Text fontSize={15} font={'bold'} color={COLORS.primary}>
+                                {convertCurrency(p.product_discountedPrice)}
+                              </Text>
+                              <Block
+                                backgroundColor={COLORS.bgError}
+                                radius={50}
+                                paddingHorizontal={3}
+                                paddingVertical={1}>
+                                <Text fontSize={12} font={'bold'} color={COLORS.red}>
+                                  -{p.discount}%
+                                </Text>
+                              </Block>
+                            </Block>
+                          </Block>
+                        </Pressable>
+                      ))}
+                    </Block>
+                  )
+                )}
+              </Block>
+
+              <Block marginTop={25} rowCenter justifyContent="space-between">
+                <Text fontSize={18} font="bold" color={COLORS.darkJungleGreen}>
+                  Bán chạy
+                </Text>
+                <Pressable rowCenter onPress={() => navigationRef.navigate('TopProductDiscount')}>
+                  <Text color={COLORS.primary} fontSize={16}>
+                    Xem tất cả
+                  </Text>
+                  <Icon
+                    color={COLORS.primary}
+                    marginLeft={5}
+                    type="FontAwesome6"
+                    name="arrow-right"
+                    size={18}
+                  />
+                </Pressable>
+              </Block>
+
+              <Block marginTop={20}>
+                {isPendingTopSelled ? (
+                  <ShimmerProduct />
+                ) : (
+                  dataTopSelled?.pages[0]?.data &&
+                  dataTopSelled?.pages[0]?.data?.data.length > 0 && (
+                    <Block row wrap justifyContent="space-between">
+                      {dataTopSelled?.pages[0]?.data?.data.map((p, idx) => (
+                        <Pressable
+                          backgroundColor={COLORS.white}
+                          shadow={2}
+                          marginBottom={15}
+                          width={'47%'}
+                          radius={8}
+                          key={idx}
+                          onPress={() => navigationRef.navigate('ProductDetail', {id: p._id})}>
+                          <Image
+                            radius={8}
+                            width={'100%'}
+                            height={width * 0.28}
+                            source={p.product_thumb}
+                            contentFit="contain"
+                          />
+                          <Block
+                            flex
+                            justifyContent="space-between"
+                            marginHorizontal={10}
+                            marginBottom={10}>
+                            <Text
+                              textAlign="center"
+                              numberOfLines={1}
+                              fontSize={14}
+                              marginTop={8}
+                              color={COLORS.black}>
+                              {p.product_name}
+                            </Text>
+                            <Block rowCenter justifyContent="space-between" marginTop={5}>
+                              <Block rowCenter>
+                                <Icon
+                                  type="Foundation"
+                                  name={'star'}
+                                  size={15}
+                                  color={COLORS.americanYellow}
+                                />
+                                <Text fontSize={15}>{p.product_ratingsAverage}</Text>
+                              </Block>
+                              <Block radius={50} paddingHorizontal={3} paddingVertical={1}>
+                                <Text fontSize={12}>Đã bán {formatToK(p.product_selled)}</Text>
+                              </Block>
+                            </Block>
+                            <Block rowCenter justifyContent="space-between" marginTop={5}>
+                              <Text fontSize={15} font={'bold'} color={COLORS.primary}>
+                                {convertCurrency(p.product_discountedPrice)}
+                              </Text>
+                              <Block
+                                backgroundColor={COLORS.bgError}
+                                radius={50}
+                                paddingHorizontal={3}
+                                paddingVertical={1}>
+                                <Text fontSize={12} font={'bold'} color={COLORS.red}>
+                                  -{p.discount}%
+                                </Text>
+                              </Block>
+                            </Block>
+                          </Block>
+                        </Pressable>
+                      ))}
+                    </Block>
+                  )
+                )}
+              </Block>
+
               <Block marginTop={25} rowCenter justifyContent="space-between">
                 <Text fontSize={18} font="bold" color={COLORS.darkJungleGreen}>
                   Tin tức

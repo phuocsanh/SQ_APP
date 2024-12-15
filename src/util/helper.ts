@@ -10,6 +10,14 @@ export const NUMBER_FORMAT = new Intl.NumberFormat(DEFAULT_LOCALES);
 
 //TODO refactor
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+export function formatToK(number: number) {
+  if (number >= 1000) {
+    return (Math.floor(number / 100) / 10).toFixed(1).replace('.', ',') + 'k';
+  }
+  return number.toString();
+}
+
 export const removeUndefinedObject = (obj: any) => {
   Object.keys(obj).forEach(k => {
     if (obj[k] === null || obj[k] === undefined) {

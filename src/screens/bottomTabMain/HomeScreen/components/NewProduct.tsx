@@ -3,10 +3,10 @@ import React from 'react';
 import {Block, Image, Pressable, Text} from 'components';
 import {COLORS, width} from 'theme';
 import {convertCurrency} from 'util/helper';
-import {HomeData} from 'models/other';
 import {navigationRef} from 'navigation/navigationRef';
+import {ProductItem} from 'models/products';
 
-const NewProduct = ({data}: {data: HomeData['product']}) => {
+const NewProduct = ({data}: {data: ProductItem[]}) => {
   return (
     <Block row>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -16,12 +16,12 @@ const NewProduct = ({data}: {data: HomeData['product']}) => {
             radius={8}
             key={idx}
             marginLeft={idx > 0 ? 20 : 0}
-            onPress={() => navigationRef.navigate('ProductDetail', {id: p.item_id})}>
+            onPress={() => navigationRef.navigate('ProductDetail', {id: p._id})}>
             <Image
               radius={8}
               width={'100%'}
               height={width * 0.28}
-              source={p.picture}
+              source={p.product_thumb}
               contentFit="cover"
             />
             <Block flex justifyContent="space-between">
@@ -31,13 +31,11 @@ const NewProduct = ({data}: {data: HomeData['product']}) => {
                 fontSize={14}
                 marginTop={8}
                 color={COLORS.black}>
-                {p.title}
+                {p.product_name}
               </Text>
-              <Text textAlign="center" fontSize={15} font={'bold'} color={COLORS.darkJungleGreen}>
-                {p.item_code}
-              </Text>
+
               <Text textAlign="center" fontSize={15} font={'bold'} color={COLORS.primary}>
-                {convertCurrency(p.price_sale)}
+                {convertCurrency(p.product_discountedPrice)}
               </Text>
             </Block>
           </Pressable>

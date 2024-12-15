@@ -10,7 +10,6 @@ export const userInfoOption = (userToken?: string) => {
     queryKey: ['getUserInfo', token],
     queryFn: async () => {
       const res = await api.get<ResponseData<UserInfo>>('user/getUserInfo');
-      console.log('🚀 ~ queryFn: ~ res:', res);
       return res.data;
     },
     enabled: !!token,

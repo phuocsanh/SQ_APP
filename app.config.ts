@@ -9,12 +9,12 @@ export default ({config}: ConfigContext): ExpoConfig => ({
   userInterfaceStyle: 'light',
   newArchEnabled: true,
   splash: {
-    image: './src/assets/icons/logo_trimmed.png',
+    image: './src/assets/icons/icon.png',
     resizeMode: 'contain',
-    backgroundColor: '#fff',
+    backgroundColor: '#48cae4',
   },
   ios: {
-    icon: './src/assets/icons/logo_trimmed.png',
+    icon: './src/assets/icons/icon.png',
     appleTeamId: '9CNPV9JMJ9',
     supportsTablet: false,
     bundleIdentifier: 'com.ims.asher',
@@ -39,10 +39,10 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     },
   },
   android: {
-    icon: './src/assets/icons/logo_padding.png',
+    icon: './src/assets/icons/icon.png',
     adaptiveIcon: {
-      foregroundImage: './src/assets/icons/logo_padding.png',
-      backgroundColor: '#ffffff',
+      foregroundImage: './src/assets/icons/adaptive-icon.png',
+      backgroundColor: '#48cae4',
     },
     package: 'com.ims.asher',
     googleServicesFile: './google-services.json',

@@ -29,7 +29,7 @@ export const useAppStore = create<Store>()(
       storage: persistStorage,
       partialize: state => ({
         // Các trường sẽ được lưu lại sau khi reload app
-        userToken: state.accessToken,
+        accessToken: state.accessToken,
         refeshToken: state.refeshToken,
         userId: state.userId,
         saveAccount: state.saveAccount,

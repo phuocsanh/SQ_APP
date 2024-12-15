@@ -8,6 +8,7 @@ import {
   ProductGroupItem,
   ProductInfo,
   ProductItem,
+  ProductType,
 } from 'models/products';
 import {queryClient} from 'queries';
 import {useAppStore} from 'stores';
@@ -20,31 +21,59 @@ export const useGetProductDetail = ({id}: {id: number}) => {
   });
 };
 
-export const useGetListProduct = ({
-  group_id,
+export const useGetListProductTopDiscount = ({
+  product_type,
   keyword,
 }: {
-  group_id: number | null;
-  keyword: string;
+  product_type?: ProductType;
+  keyword?: string;
 }) => {
-  const getProducts = async ({pageParam}: {pageParam: number}) => {
-    const data = await api.get<PagingResponseData<ProductItem>>('/product/list', {
-      group_id,
-      keyword: keyword,
-      page: pageParam + 1,
+  const getListProductTopDiscount = async ({pageParam}: {pageParam: number}) => {
+    const data = await api.get<PagingResponseData<ProductItem>>('/product/getProductsByDiscount', {
+      product_type,
+      keyword,
+      page: pageParam,
       limit: 10,
     });
     return data;
   };
   return useInfiniteQuery({
-    queryKey: ['getProducts', group_id, keyword],
-    queryFn: getProducts,
-    initialPageParam: 0,
+    queryKey: ['getListProductTopDiscount', keyword, product_type],
+    queryFn: getListProductTopDiscount,
+    initialPageParam: 1,
     getNextPageParam: pages => {
-      if (pages.data.last_page === pages.data.current_page) {
+      if (pages.data.currentPage >= pages.data.totalPages) {
         return undefined;
       }
-      return pages.data.current_page;
+      return pages.data.currentPage + 1;
+    },
+  });
+};
+export const useGetListProductBySelled = ({
+  product_type,
+  keyword,
+}: {
+  product_type?: ProductType;
+  keyword?: string;
+}) => {
+  const getListProductBySelled = async ({pageParam}: {pageParam: number}) => {
+    const data = await api.get<PagingResponseData<ProductItem>>('/product/getProductsBySelled', {
+      product_type,
+      keyword,
+      page: pageParam,
+      limit: 10,
+    });
+    return data;
+  };
+  return useInfiniteQuery({
+    queryKey: ['getListProductBySelled', keyword, product_type],
+    queryFn: getListProductBySelled,
+    initialPageParam: 1,
+    getNextPageParam: pages => {
+      if (pages.data.currentPage >= pages.data.totalPages) {
+        return undefined;
+      }
+      return pages.data.currentPage + 1;
     },
   });
 };

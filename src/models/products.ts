@@ -1,11 +1,16 @@
 export type ProductItem = {
-  item_id: number;
-  item_code: string;
-  title: string;
-  picture: string;
-  price_sale: number;
+  _id: string;
+  product_name: string;
+  product_price: number;
+  product_thumb: string;
+  product_type: ProductType;
+  product_discountedPrice: number;
+  product_selled: number;
+  discount: number;
+  product_ratingsAverage: number;
 };
 
+export type ProductType = 'Electronic' | 'Clothing' | 'Furniture' | 'Wallet_Bag' | 'Watch';
 export type ProductGroupItem = {
   group_id: number;
   title: string;
@@ -15,29 +20,31 @@ export type ProductBanner = {
   content: string;
 };
 
-export type ProductDetail = {
-  id: number;
-  item_id: number;
-  title: string;
-  item_code: string;
-  picture: string;
-  arr_picture: string[];
-  price: number;
-  price_sale: number;
-  short: {
-    [key: string]: {
-      key: string;
-      value: string;
-    };
-  };
-  content: string;
-  friendly_link: string;
-  show_order: number;
-  is_show: number;
-  is_focus: number;
-  num_sold: number;
-  num_view: number;
-};
+export interface ProductDetail {
+  _id: string;
+  product_name: string;
+  product_price: number;
+  product_thumb: string;
+  product_ratingsAverage: number;
+  product_variations: any[];
+  product_description: string;
+  product_quantity: number;
+  product_type: ProductType;
+  product_shop: string;
+  discount: number;
+  product_discountedPrice: number;
+  product_selled: number;
+  product_attributes: ProductAttributes;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProductAttributes {
+  brand: string;
+  size: string;
+  material: string;
+}
 
 export type ProductInfo = {
   product: {

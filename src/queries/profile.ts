@@ -8,7 +8,7 @@ import {sleep} from 'util/helper';
 export const useUpdatePassword = () => {
   return useMutation({
     mutationFn: async (body: {password_old: string; password: string}) => {
-      const res = await api.patch<ApiResponse>('user/update-password', {
+      const res = await api.postRaw<ApiResponse>('auth/changePassword', {
         ...body,
       });
       return res;
@@ -28,7 +28,7 @@ export const useDeleteAccount = () => {
       return res;
     },
     onSuccess: () => {
-      useAppStore.setState({userToken: undefined, accountSaved: undefined});
+      useAppStore.setState({accessToken: undefined, accountSaved: undefined});
     },
   });
 };

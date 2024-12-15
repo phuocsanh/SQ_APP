@@ -57,10 +57,9 @@ export type PagingParams<P = void> = P extends void ? Paging | void : Paging & P
 
 export type PagingResponseData<D> = ApiResponse & {
   data: {
-    last_page: number;
+    totalPages: number;
     total: number;
-    per_page: number;
-    current_page: number;
+    currentPage: number;
     data: D[];
   };
   //from:number;

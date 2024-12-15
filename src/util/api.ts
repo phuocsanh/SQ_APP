@@ -6,8 +6,8 @@ import {isFile, isFileArray} from './checkType';
 import {useAppStore} from 'stores';
 
 export const REMOTE_URL = 'https://asher.thietkewebsite.info.vn/api';
-// export const LOCAL_URL = 'http://192.168.1.11:8080/v1/api'; //personal
-export const LOCAL_URL = 'http://192.168.1.34:8080/v1/api'; // company
+export const LOCAL_URL = 'http://192.168.1.11:8080/v1/api'; //personal
+// export const LOCAL_URL = 'http://192.168.1.34:8080/v1/api'; // company
 export const BASE_URL = __DEV__
   ? // DEV URL ✅ chỉnh ở đây
     LOCAL_URL

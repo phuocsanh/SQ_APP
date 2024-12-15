@@ -16,8 +16,12 @@ import ActiveStatusScreen from './ActiveStatusScreen';
 import ListActiveProductScreen from './ListActiveProductScreen';
 import SearchNewsBottomScreen from './SearchNewsBottomScreen';
 import DeleteAccountScreen from './DeleteAccountScreen';
+import TopProductDiscountScreen from './TopProductDiscountScreen';
+import UpdateProfileScreen from './UpdateProfileScreen';
 
 export default {
+  UpdateProfileScreen,
+  TopProductDiscountScreen,
   NotificationDetailScreen,
   NewsDetailScreen,
   NotificationScreen,
